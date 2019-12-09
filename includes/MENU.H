@@ -1,0 +1,167 @@
+#include<graphics.h>
+#include<medesign.h>
+union REGS in,out;
+int ex=0;
+void callmouse()
+{
+ in.x.ax=1;
+ int86(51,&in,&out);
+}
+void mousehide()
+{
+in.x.ax=2;
+int86(51,&in,&out);
+}
+void setposi(int &xpos,int &ypos)
+{
+ in.x.ax=4;
+ in.x.cx=xpos;
+ in.x.dx=ypos;
+ int86(51,&in,&out);
+}
+int mouseposi(int &xpos,int &ypos)
+{
+int click=0;
+in.x.ax=3;
+int86(51,&in,&out);
+click=out.x.bx;
+xpos=out.x.cx;
+ypos=out.x.dx;
+ if((xpos>=100&&xpos<=225)&&(ypos>=120&&ypos<=150))
+{
+if(click==2||click==1)
+{
+ex=1;
+click=0;
+}
+}
+ if((xpos>=100&&xpos<=225)&&(ypos>=180&&ypos<=210))
+{
+if(click==2||click==1)
+{
+ex=2;
+}
+}
+if((xpos>=100&&xpos<=225)&&(ypos>=240&&ypos<=270))
+{
+if(click==2||click==1)
+{
+ex=3;
+click=0;
+}
+}
+if((xpos>=100&&xpos<=225)&&(ypos>=300&&ypos<=330))
+{
+if(click==2||click==1)
+{
+ex=4;
+click=0;
+}
+}
+if((xpos>=100&&xpos<=225)&&(ypos>=360&&ypos<=390))
+{
+if(click==2||click==1)
+{
+ex=8;
+click=0;
+mousehide();
+}
+}
+return(click);
+}
+
+int menu()
+{
+int a=0,mp=1,BH=135,BW=270,x,y,tem;
+setposi(100,500);
+callmouse();
+medesign();
+fmove(0,BH,BW);
+while(ex==0)
+{
+mouseposi(x,y);
+if(mp==1)
+{
+if(BH+22<=388)
+{
+mousehide();
+BH=BH+1;
+setcolor(2);
+setfillstyle(1,2);
+rectangle(BW-20,BH-23,BW+20,BH+20);
+floodfill(BW,BH,2);
+fmove(0,BH,BW);
+callmouse();
+delay(20);
+}
+else
+{
+mp=2;
+}
+}
+if(mp==2)
+{
+if(BW+17<=575)
+{
+mousehide();
+BW=BW+1;
+setcolor(2);
+setfillstyle(1,2);
+rectangle(BW-20,BH-23,BW+20,BH+20);
+floodfill(BW,BH,2);
+fright(BH,BW);
+callmouse();
+delay(20);
+}
+else
+{
+mp=3;
+}
+}
+if(mp==3)
+  {
+  if(BH-24>=111)
+{
+mousehide();
+BH=BH-1;
+setcolor(2);
+setfillstyle(1,2);
+rectangle(BW-20,BH-23,BW+20,BH+20);
+floodfill(BW,BH,2);
+fback(0,BH,BW);
+callmouse();
+delay(20);
+}
+else
+{
+mp=4;
+}
+}
+  if(mp==4)
+  {
+  if(BW-19>=251)
+{
+mousehide();
+BW=BW-1;
+setcolor(2);
+setfillstyle(1,2);
+rectangle(BW-20,BH-23,BW+20,BH+20);
+floodfill(BW,BH,2);
+fleft(BH,BW);
+callmouse();
+delay(20);
+}
+
+  else
+{
+mp=1;
+}
+}
+}
+tem=ex;
+ex=0;
+mousehide();
+return(tem);
+}
+
+

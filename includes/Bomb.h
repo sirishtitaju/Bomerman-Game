@@ -1,0 +1,20 @@
+#include<graphics.h>
+void bomb(int bombx,int bomby,int n)
+{
+setcolor(8);
+setfillstyle(1,8);
+circle(bombx,bomby,11-n);
+floodfill(bombx,bomby,8);
+setcolor(7);
+setfillstyle(1,7);
+circle(bombx-5,bomby-2-n,2);
+floodfill(bombx-6,bomby-(3+n),7);
+setcolor(8);
+setfillstyle(1,8);
+rectangle(bombx-2,bomby-13+n,bombx+3,bomby-9+n);
+floodfill(bombx,bomby-12+n,8);
+setcolor(12);
+line(bombx,bomby-13+n,bombx+3,bomby-15+n);
+setcolor(14);
+line(bombx+3,bomby-15+n,bombx+5,bomby-18+n);
+}
